@@ -2,7 +2,6 @@ const axios = require("axios");
 
 async function fetchRedditTextPost(url) {
   try {
-    // Reddit provides JSON for any post by appending .json
     const jsonUrl = url.replace(/\/?$/, ".json");
 
     const response = await axios.get(jsonUrl, {
@@ -21,7 +20,6 @@ async function fetchRedditTextPost(url) {
     const author = post.author || "unknown";
     const score = post.score || 0;
 
-    // Format the text post nicely
     let message = `📌 *${escapeMarkdown(title)}*\n\n`;
     message += `👤 u/${author} | ${subreddit} | ⬆️ ${score}\n\n`;
     if (body) {

@@ -22,12 +22,10 @@ bot.on("message", async (msg) => {
   const userId = msg.from.id.toString();
   const text = msg.text?.trim();
 
-  // 🔒 Private bot — only allow specific user
   if (userId !== ALLOWED_USER_ID) {
     return bot.sendMessage(chatId, "⛔ Access denied.");
   }
 
-  // Handle /start command
   if (text === "/start") {
     return bot.sendMessage(
       chatId,
@@ -40,7 +38,6 @@ bot.on("message", async (msg) => {
     );
   }
 
-  // Handle /help command
   if (text === "/help") {
     return bot.sendMessage(
       chatId,
@@ -56,7 +53,6 @@ bot.on("message", async (msg) => {
     );
   }
 
-  // Check if message is a URL
   if (!text || !isValidUrl(text)) {
     return bot.sendMessage(chatId, "❓ Please send a valid URL.");
   }
@@ -74,7 +70,6 @@ bot.on("message", async (msg) => {
   let filePath = null;
 
   try {
-    // Reddit — check if it's a text post first
     if (platform === "reddit") {
       const { isTextPost, message } = await fetchRedditTextPost(text);
       if (isTextPost) {
@@ -83,10 +78,8 @@ bot.on("message", async (msg) => {
       }
     }
 
-    // Download media using yt-dlp
     filePath = await download(text, platform);
 
-    // Check file size
     if (isFileTooLarge(filePath)) {
       await bot.deleteMessage(chatId, statusMsg.message_id);
       return bot.sendMessage(
@@ -97,7 +90,6 @@ bot.on("message", async (msg) => {
 
     await bot.deleteMessage(chatId, statusMsg.message_id);
 
-    // Send the file
     const ext = filePath.split(".").pop().toLowerCase();
     const videoExtensions = ["mp4", "mkv", "webm", "mov"];
     const imageExtensions = ["jpg", "jpeg", "png", "webp"];

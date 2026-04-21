@@ -4,7 +4,6 @@ const fs = require("fs");
 
 const TEMP_DIR = path.join(__dirname, "../temp");
 
-// Ensure temp directory exists
 if (!fs.existsSync(TEMP_DIR)) {
   fs.mkdirSync(TEMP_DIR, { recursive: true });
 }
@@ -27,7 +26,7 @@ function resolveActualFile(prefix) {
 
 function download(url, platform) {
   return new Promise((resolve, reject) => {
-    const { template, prefix } = buildOutputPath(platform); // 👈 changed
+    const { template, prefix } = buildOutputPath(platform); 
 
   const isInstagram = platform === "instagram";
 
@@ -52,7 +51,7 @@ const cmd = [
       }
 
       try {
-        const filePath = resolveActualFile(prefix); // 👈 prefix use karo
+        const filePath = resolveActualFile(prefix);
         resolve(filePath);
       } catch (resolveErr) {
         reject(resolveErr);
